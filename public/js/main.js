@@ -35,44 +35,61 @@ class Scene {
    */
   constructor() {
     const view = document.getElementById('view');
+    const graphics = new PIXI.Graphics();
 
     // set up fps monitoring
     const stats = new Stats();
     view.getElementsByClassName('stats')[0].appendChild(stats.domElement);
 
     // initialize rendering and set correct sizing
-    this.radio = window.devicePixelRatio;
+    this.ratio = window.devicePixelRatio;
     this.renderer = PIXI.autoDetectRenderer({
       transparent: true,
       antialias: true,
-      resolution: this.radio,
+      resolution: this.ratio,
       width: view.clientWidth,
       height: view.clientHeight,
     });
     this.element = this.renderer.view;
-    this.element.style.width = `${this.renderer.width / this.radio}px`;
-    this.element.style.height = `${(this.renderer.height / this.radio)}px`;
+    this.element.style.width = `${this.renderer.width / this.ratio}px`;
+    this.element.style.height = `${(this.renderer.height / this.ratio)}px`;
     view.appendChild(this.element);
 
     // center stage and normalize scaling for all resolutions
     this.stage = new PIXI.Container();
     this.stage.position.set(view.clientWidth / 2, view.clientHeight / 2);
     this.stage.scale.set(Math.max(this.renderer.width,
-        this.renderer.height) / 1024);
+      this.renderer.height) / 1024);
 
     // load a sprite from a svg file
-    this.sprite = PIXI.Sprite.from('triangle.svg');
-    this.sprite.anchor.set(0.5);
-    this.sprite.tint = 0x00FF00; // green
-    this.sprite.spin = true;
-    this.stage.addChild(this.sprite);
+    // this.sprite = PIXI.Sprite.from('triangle.svg');
+    // this.sprite.anchor.set(0.5);
+    // this.sprite.tint = 0x00FF00; // green
+    // this.sprite.spin = true;
+    // this.stage.addChild(this.sprite);
 
-    // toggle spin on touch events of the triangle
-    this.sprite.interactive = true;
-    this.sprite.buttonMode = true;
-    this.sprite.on('pointerdown', () => {
-      this.sprite.spin = !this.sprite.spin;
-    });
+    // // toggle spin on touch events of the triangle
+    // this.sprite.interactive = true;
+    // this.sprite.buttonMode = true;
+    // this.sprite.on('pointerdown', () => {
+    //   this.sprite.spin = !this.sprite.spin;
+    // });
+
+    Section.amount = 6;
+    Section.graphics = graphics;
+    Section.width = view.clientWidth / this.ratio;
+    Section.height = view.clientHeight / this.ratio;
+    Section.solvedSection = 3;
+    Section.selectedIndex = 3;
+
+    new Section(0, 0xdd0022);
+    new Section(1, 0xee7700);
+    new Section(2, 0xffbb00);
+    new Section(3, 0x00aa22);
+    new Section(4, 0x3366cc);
+    new Section(5, 0x9900bb);
+
+    this.stage.addChild(graphics);
 
     let last = performance.now();
     // frame-by-frame animation function
@@ -84,9 +101,9 @@ class Scene {
       const delta = now - last;
 
       // rotate the triangle only if spin is true
-      if (this.sprite.spin) {
-        this.sprite.rotation += delta / 1000;
-      }
+      // if (this.sprite.spin) {
+      //   this.sprite.rotation += delta / 1000;
+      // }
 
       last = now;
 
@@ -95,7 +112,7 @@ class Scene {
       requestAnimationFrame(frame);
     };
     frame();
-    this.createRestartGameButton();
+    // this.createRestartGameButton();
   }
 
   /**
@@ -103,27 +120,26 @@ class Scene {
    */
   createRestartGameButton() {
     const textureButton = PIXI.Texture
-        .fromImage('./restart_game_btn_enabled.png');
+      .fromImage('./restart_game_btn_enabled.png');
     this.button = new PIXI.Sprite(textureButton);
-    this.button.scale.set(0.5);
     this.button.textureButton = textureButton;
     this.button.textureButtonDisabled = PIXI.Texture
-        .fromImage('./restart_game_btn_disabled.png');
+      .fromImage('./restart_game_btn_disabled.png');
     const that = this;
-    const onButtonDown = function() {
+    const onButtonDown = function () {
       console.log(`Request in flight`);
       that.button.texture = that.button.textureButtonDisabled;
       that.sprite.spin = false;
       that.action.canvas.sendTextQuery('Restart game')
-          .then((res) => {
-            if (res.toUpperCase() === 'SUCCESS') {
-              console.log(`Request in flight: ${res}`);
-              that.button.texture = that.button.textureButtonDisabled;
-              that.sprite.spin = false;
-            } else {
-              console.log(`Request in flight: ${res}`);
-            }
-          });
+        .then((res) => {
+          if (res.toUpperCase() === 'SUCCESS') {
+            console.log(`Request in flight: ${res}`);
+            that.button.texture = that.button.textureButtonDisabled;
+            that.sprite.spin = false;
+          } else {
+            console.log(`Request in flight: ${res}`);
+          }
+        });
     };
 
     this.button.buttonMode = true;
@@ -134,5 +150,42 @@ class Scene {
     this.button.buttonMode = true;
     this.button.on('pointerdown', onButtonDown);
     this.stage.addChild(this.button);
+  }
+}
+
+class Section {
+  static amount;
+  static selectedIndex;
+  static solvedSection;
+  static graphics;
+  static width;
+  static height;
+
+  index;
+  color;
+
+  constructor(index, color) {
+    this.index = index;
+    this.color = color;
+
+    this.draw();
+  }
+
+  draw() {
+    let deltaWidth;
+    let offsetX;
+    const offsetY = -Section.height / 2;
+
+    if (Section.selectedIndex) {
+      const basicWidth = (Section.width / Section.amount) / 20;
+      deltaWidth = this.index !== Section.selectedIndex ? basicWidth : Section.width * 19 / 20 + basicWidth;
+      offsetX = this.index <= Section.selectedIndex ? -Section.width / 2 + basicWidth * this.index : Section.width / 2 - basicWidth * (Section.amount - this.index);
+    } else {
+      deltaWidth = Section.width / Section.amount;
+      offsetX = -Section.width / 2 + deltaWidth * this.index;
+    }
+
+    Section.graphics.beginFill(this.color, Section.solvedSection > this.index ? 1 : 0.2);
+    Section.graphics.drawRect(offsetX, offsetY, deltaWidth, Section.height);
   }
 }
