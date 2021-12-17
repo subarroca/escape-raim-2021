@@ -15,36 +15,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Interactive Canvas Sample</title>
 
-    <!-- Disable favicon requests -->
-    <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Interactive Canvas Sample</title>
 
-    <!-- Load Interactive Canvas JavaScript -->
-    <script src="https://www.gstatic.com/assistant/interactivecanvas/api/interactive_canvas.min.js"></script>
+  <!-- Disable favicon requests -->
+  <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
 
-    <!-- Load PixiJS for graphics rendering -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.7/pixi.min.js"></script>
+  <!-- Load Interactive Canvas JavaScript -->
+  <script src="https://www.gstatic.com/assistant/interactivecanvas/api/interactive_canvas.min.js"></script>
 
-    <!-- Load Stats.js for fps monitoring -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+  <!-- Load PixiJS for graphics rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.7/pixi.min.js"></script>
 
-    <!-- Load custom CSS -->
-    <link rel="stylesheet" href="css/main.css">
-  </head>
-  <body>
-    <div id="view" class="view">
-      <div class="debug">
-        <div class="stats"></div>
-        <div class="logs"></div>
-      </div>
+  <!-- Load Stats.js for fps monitoring -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+
+  <!-- Load custom CSS -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <div id="view" class="view">
+    <div class="debug">
+      <div class="stats"></div>
+      <div class="logs"></div>
     </div>
-    <!-- Load custom JavaScript after elements are on page -->
-    <script src="js/action.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/log.js"></script>
-  </body>
+  </div>
+  <div id="view-html" class="view">
+    <img src="assets/red.svg" />
+    <img src="assets/orange.svg" />
+    <img src="assets/green.svg" />
+    <img src="assets/turquoise.svg" />
+    <img src="assets/silver.svg" />
+    <img src="assets/gold.svg" />
+  </div>
+  <!-- Load custom JavaScript after elements are on page -->
+  <script src="js/action.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/log.js"></script>
+</body>
+
 </html>

@@ -61,12 +61,7 @@ class Scene {
     this.stage.scale.set(Math.max(this.renderer.width,
       this.renderer.height) / 1024);
 
-    // load a sprite from a svg file
-    // this.sprite = PIXI.Sprite.from('triangle.svg');
-    // this.sprite.anchor.set(0.5);
-    // this.sprite.tint = 0x00FF00; // green
-    // this.sprite.spin = true;
-    // this.stage.addChild(this.sprite);
+
 
     // // toggle spin on touch events of the triangle
     // this.sprite.interactive = true;
@@ -76,18 +71,16 @@ class Scene {
     // });
 
     Section.amount = 6;
-    Section.graphics = graphics;
-    Section.width = view.clientWidth / this.ratio;
-    Section.height = view.clientHeight / this.ratio;
     Section.solvedSection = 3;
     Section.selectedIndex = 3;
+    Section.stage = this.stage;
 
-    new Section(0, 0xdd0022);
-    new Section(1, 0xee7700);
-    new Section(2, 0xffbb00);
-    new Section(3, 0x00aa22);
-    new Section(4, 0x3366cc);
-    new Section(5, 0x9900bb);
+    new Section(0, 'red');
+    new Section(1, 'orange');
+    new Section(2, 'green');
+    new Section(3, 'turquoise');
+    new Section(4, 'silver');
+    new Section(5, 'gold');
 
     this.stage.addChild(graphics);
 
@@ -157,9 +150,7 @@ class Section {
   static amount;
   static selectedIndex;
   static solvedSection;
-  static graphics;
-  static width;
-  static height;
+  static stage;
 
   index;
   color;
@@ -172,20 +163,11 @@ class Section {
   }
 
   draw() {
-    let deltaWidth;
-    let offsetX;
-    const offsetY = -Section.height / 2;
-
-    if (Section.selectedIndex) {
-      const basicWidth = (Section.width / Section.amount) / 20;
-      deltaWidth = this.index !== Section.selectedIndex ? basicWidth : Section.width * 19 / 20 + basicWidth;
-      offsetX = this.index <= Section.selectedIndex ? -Section.width / 2 + basicWidth * this.index : Section.width / 2 - basicWidth * (Section.amount - this.index);
-    } else {
-      deltaWidth = Section.width / Section.amount;
-      offsetX = -Section.width / 2 + deltaWidth * this.index;
-    }
-
-    Section.graphics.beginFill(this.color, Section.solvedSection > this.index ? 1 : 0.2);
-    Section.graphics.drawRect(offsetX, offsetY, deltaWidth, Section.height);
+    this.sprite = PIXI.Sprite.from(`assets/${this.color}.svg`);
+    this.sprite.anchor.set(2 - this.index / Section.amount, 0.5);
+    this.sprite.scale.set(0.5);
+    this.sprite.interactive = true;
+    this.sprite.buttonMode = true;
+    Section.stage.addChild(this.sprite);
   }
 }

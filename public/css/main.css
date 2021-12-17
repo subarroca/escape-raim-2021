@@ -93,3 +93,23 @@ canvas {
 .logs > p.error {
   color: red;
 }
+
+/* ESCAPE RAIM 2021 */
+#view-html {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-content: center;
+  justify-content: space-around;
+}
+
+img {
+  max-width: 100%;
+  opacity: 0.3;
+}
+
+img.achieved,
+img:hover {
+  opacity: 1;
+}
