@@ -19,7 +19,7 @@ limitations under the License.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Interactive Canvas Sample</title>
+  <title>Escape raïm 2021</title>
 
   <!-- Disable favicon requests -->
   <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
@@ -27,35 +27,21 @@ limitations under the License.
   <!-- Load Interactive Canvas JavaScript -->
   <script src="https://www.gstatic.com/assistant/interactivecanvas/api/interactive_canvas.min.js"></script>
 
-  <!-- Load PixiJS for graphics rendering -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.7/pixi.min.js"></script>
-
-  <!-- Load Stats.js for fps monitoring -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
-
   <!-- Load custom CSS -->
   <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
-  <div id="view" class="view">
-    <div class="debug">
-      <div class="stats"></div>
-      <div class="logs"></div>
-    </div>
-  </div>
   <div id="view-html" class="view">
-    <img src="assets/red.svg" />
-    <img src="assets/orange.svg" />
-    <img src="assets/green.svg" />
-    <img src="assets/turquoise.svg" />
-    <img src="assets/silver.svg" />
-    <img src="assets/gold.svg" />
+    <img class="section-link" data-section="red" src="assets/red.svg" />
+    <img class="section-link" data-section="orange" src="assets/orange.svg" />
+    <img class="section-link" data-section="green" src="assets/green.svg" />
+    <img class="section-link" data-section="turquoise" src="assets/turquoise.svg" />
+    <img class="section-link" data-section="silver" src="assets/silver.svg" />
+    <img class="section-link" data-section="gold" src="assets/gold.svg" />
   </div>
   <!-- Load custom JavaScript after elements are on page -->
-  <script src="js/action.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/log.js"></script>
 </body>
 
 </html>

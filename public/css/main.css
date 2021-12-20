@@ -31,70 +31,6 @@ body {
   flex: 1;
 }
 
-canvas {
-  display: block;
-  background-color: white;
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: transparent;
-}
-
-.debug {
-  display: flex;
-  flex-direction: column;
-
-  /* Uncomment below to disable the debug overlay */
-  display: none !important;
-
-  width: 200px;
-
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  bottom: 8px;
-}
-
-.stats {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.logs {
-  display: block;
-  flex: 1;
-  opacity: 0.8;
-  overflow-y: scroll;
-  text-align: right;
-
-  font-size: 12px;
-}
-
-.logs > p {
-  display: inline-block;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  margin: 0px;
-  margin-top: 1px;
-  background: black;
-  max-width: 100%;
-
-  font-family: Arial, sans-serif;
-  color: white;
-  text-align: right;
-  overflow-wrap: break-word;
-}
-
-.logs > p.error {
-  color: red;
-}
-
-/* ESCAPE RAIM 2021 */
 #view-html {
   position: relative;
   flex: 1;
@@ -106,10 +42,30 @@ canvas {
 
 img {
   max-width: 100%;
+  opacity: 1;
+}
+
+img.next {
+  animation: pulse 2s infinite;
+}
+
+img.next ~ img {
   opacity: 0.3;
 }
 
-img.achieved,
-img:hover {
-  opacity: 1;
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0px 0px 0px #ccc);
+  }
+
+  70% {
+    transform: scale(1.05);
+    filter: drop-shadow(0px 10px 3px #ccc) drop-shadow(0px -2px 3px #ccc);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0px 0px 0px #ccc);
+  }
 }
